@@ -2,12 +2,14 @@ pipeline {
     agent any
     environment{
         BUCKET = "aws-web-angular"
+        DOCKER_USER = "jenkins_admin"
     }
 
     stages {
         stage('init') {
             agent {
                 docker {
+                    user '$DOCKER_USER'
                     image 'node:erbium-alpine'
                     args '-u root:root'
                 }
