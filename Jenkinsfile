@@ -4,8 +4,8 @@ pipeline {
         BUCKET = 'aws-web-angular'
     }
 
-    stages {
-        try {
+    try {
+        stages {
             stage('init') {
                 agent {
                     docker {
@@ -49,14 +49,14 @@ pipeline {
                     }
                 }
             }
-        } catch (e) {
-            currentBuild.result = 'FAILURE'
-            slackSend(
-                color: '#FF0000',
-                message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
-            )
-
-            throw e
         }
+    } catch (e) {
+        currentBuild.result = 'FAILURE'
+        slackSend(
+            color: '#FF0000',
+            message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
+        )
+
+        throw e
     }
 }
