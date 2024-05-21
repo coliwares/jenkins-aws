@@ -9,7 +9,6 @@ pipeline {
         stage('init') {
             agent {
                 docker {
-                    user '$DOCKER_USER'
                     image 'node:erbium-alpine'
                     args '-u root:root'
                 }
