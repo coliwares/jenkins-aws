@@ -1,17 +1,27 @@
 pipeline {
     agent any
+
     stages {
-        stage('ejemplo init') {
-            echo 'Hola Init'
+        stage('init') {
+            steps {
+                echo 'Hello init'
+            }
         }
-        stage('ejemplo test') {
-            echo 'Hola Tests'
+        stage('test') {
+            steps {
+                echo 'Hello test'
+            }
         }
-        stage('ejemplo build') {
-            echo 'Hola Build'
+        stage('build') {
+            steps {
+                echo 'Hello build'
+            }
         }
-        stage('ejemplo deploy') {
-            echo 'Hola deploy'
+        stage('deploy') {
+            steps {
+                echo 'Hello deploy'
+            }
         }
+        
     }
 }
