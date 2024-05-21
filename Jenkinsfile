@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment{
-        BUCKET = "aws-web-guatemala-2"
+        BUCKET = "aws-web-angular"
     }
 
     stages {
