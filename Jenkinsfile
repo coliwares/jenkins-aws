@@ -1,16 +1,17 @@
 pipeline {
     agent any
-        environment{
-            BUCKET = "aws-web-guatemala-1"
-        }
     stages {
-        stage('deploy to s3') {
-            steps {
-                withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
-                    sh 'aws s3 sync . s3://$BUCKET --exclude ".git/*"'
-                    sh 'aws s3 ls s3://$BUCKET '
-                }
-            }
+        stage('ejemplo init') {
+            echo 'Hola Init'
+        }
+        stage('ejemplo test') {
+            echo 'Hola Tests'
+        }
+        stage('ejemplo build') {
+            echo 'Hola Build'
+        }
+        stage('ejemplo deploy') {
+            echo 'Hola deploy'
         }
     }
 }
