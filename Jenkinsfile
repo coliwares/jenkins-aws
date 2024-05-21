@@ -41,7 +41,7 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                withAWS(credentials: 'aws-roxsross', region: 'us-east-1') {
+                withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
                     unstash 'dist'
                     sh 'aws s3 sync dist/. s3://$BUCKET --exclude ".git/*"'
                     sh 'aws s3 ls s3://$BUCKET '
