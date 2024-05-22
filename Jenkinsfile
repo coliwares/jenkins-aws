@@ -9,6 +9,7 @@ def getBuildUser() {
     def buildUser = ''
     def buildCauses = currentBuild.rawBuild.getCauses()
     for (cause in buildCauses) {
+        echo cause.getShortDescription()
         if (cause.getShortDescription().contains('Started by user')) {
             buildUser = cause.getShortDescription().split(' ')[3]
         }
@@ -72,7 +73,6 @@ pipeline {
             echo 'This will always run'
             script {
                 BUILD_USER = getBuildUser()
-                echo "environmen: ${env}"
             }
             slackSend   color: COLOR_MAP[currentBuild.currentResult], 
                         message: "Build *${currentBuild.currentResult}* Job ${env.JOB_NAME} build #${env.BUILD_NUMBER} by ${BUILD_USER} \n more info at ${env.BUILD_URL}"
