@@ -19,10 +19,13 @@ def getBuildUser() {
 //obtener el stage que falló
 def getFailedStage() {
     def failedStages = currentBuild.rawBuild.getAction(hudson.model.CauseAction).getCauses().get(0).getShortDescription().split(' ')[0]
-    def log = currentBuild.rawBuild.getAction(hudson.model.CauseAction).getCauses().toString()
+    def log = ''
+    def causes = currentBuild.rawBuild.getAction(hudson.model.CauseAction).getCauses()
+    for (cause in causes) {
+        log += cause.toString() + '\n'
+    }
     //imprime el stage que falló
     echo "Failed stage: ${log}"
-    echo "Failed stage 2: ${env.STAGE_FAILED}"
 
     for (stage in failedStages) {
         failedStage = stage
