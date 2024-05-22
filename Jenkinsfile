@@ -21,7 +21,7 @@ def getFailedStage() {
     def failedStage = ''
     def buildCauses = currentBuild.rawBuild.getCauses()
     for (cause in buildCauses) {
-        echo cause.getShortDescription()
+        echo cause.cause.getShortDescription()
         if (cause.getShortDescription().contains('Failed')) {
             failedStage = cause.getShortDescription().split(' ')[0]
         }
