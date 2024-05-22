@@ -5,20 +5,35 @@ def COLOR_MAP = [
 ]
 
 def getBuildUser() {
-    def buildUser = currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause)
-    if (buildUser == null) {
-        result = 'anonymous'
-    } else {
-        result = buildUser
+    //obtener usuario ejecutor de job de jenkins
+    def buildUser = ''
+    def buildCauses = currentBuild.rawBuild.getCauses()
+    for (cause in buildCauses) {
+        if (cause.getShortDescription().contains('Started by user')) {
+            buildUser = cause.getShortDescription().split(' ')[3]
+        }
     }
-    return result
+    return buildUser
 }
+
+//obtener el stage que falló
+def getFailedStage() {
+    def failedStage = ''
+    def failedStages = currentBuild.rawBuild.getAction(hudson.model.CauseAction).getCauses().get(0).getShortDescription().split(' ')[0]
+    for (stage in failedStages) {
+        failedStage = stage
+    }
+    return failedStage
+}
+
+
 
 pipeline {
     agent any
     environment {
         BUCKET = 'aws-web-angular'
         BUILD_USER = ''
+        STAGE_FAILED = ''
     }
     stages {
         stage('init') {
@@ -70,9 +85,10 @@ pipeline {
             echo 'This will always run'
             script {
                 BUILD_USER = getBuildUser()
+                STAGE_FAILED = getFailedStage()
             }
             slackSend   color: COLOR_MAP[currentBuild.currentResult], 
-                        message: "Build *${currentBuild.currentResult}* Job ${env.JOB_NAME} build #${env.BUILD_NUMBER} by ${BUILD_USER} \n in stage ${env.STAGE_NAME} \n more info at ${env.BUILD_URL}"
+                        message: "Build *${currentBuild.currentResult}* Job ${env.JOB_NAME} build #${env.BUILD_NUMBER} by ${BUILD_USER} \n in stage ${STAGE_FAILED} \n more info at ${env.BUILD_URL}"
         }
     }
 }
