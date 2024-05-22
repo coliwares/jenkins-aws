@@ -10,8 +10,8 @@ def getBuildUser() {
     def buildCauses = currentBuild.rawBuild.getCauses()
     for (cause in buildCauses) {
         echo cause.getShortDescription()
-        if (cause.getShortDescription().contains('Started by user')) {
-            buildUser = cause.getShortDescription().split(' ')[3]
+        if (cause.getShortDescription().contains('Started by GitHub push by')) {
+            buildUser = cause.getShortDescription().split(' ')[5]
         }
     }
     return buildUser
@@ -63,6 +63,7 @@ pipeline {
                 withAWS(credentials: 'aws-credentials', region: 'us-east-1') {
                     unstash 'dist'
                     sh 'aws s3 sync dist/. s3://$BUCKET --exclude ".git/*"'
+                    sh 'aws s3 refresh --paths "/*" s3://$BUCKET'
                     sh 'aws s3 ls s3://$BUCKET '
                 }
             }
