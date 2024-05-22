@@ -29,12 +29,6 @@ def getFailedStage() {
     return failedStage
 }
 
-
-
-}
-
-
-
 pipeline {
     agent any
     environment {
