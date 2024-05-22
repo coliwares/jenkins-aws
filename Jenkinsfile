@@ -64,7 +64,7 @@ pipeline {
                     unstash 'dist'
                     sh 'aws s3 sync dist/. s3://$BUCKET --exclude ".git/*"'
                     sh 'aws s3 ls s3://$BUCKET '
-                    sh 'aws cloudfront update-distribution --id EZU2QSZRJIHXX'
+                    sh 'aws cloudfront create-invalidation --distribution-id EZU2QSZRJIHXX --paths "/*"'
                 }
             }
         }
