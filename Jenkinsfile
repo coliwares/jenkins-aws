@@ -49,7 +49,7 @@ pipeline {
         stage('sonar') {
             agent {
                 docker {
-                    image 'sonarsource/sonar-scanner-cli:latest'
+                    image 'sonarsource/sonar-scanner-cli:4.2'
                     args '-u root:root'
                 }
             }
