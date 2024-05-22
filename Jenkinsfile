@@ -71,8 +71,8 @@ pipeline {
             script {
                 BUILD_USER = getBuildUser()
             }
-            slackSend ( color: COLOR_MAP[currentBuild.currentResult], 
-                        message: "Build *${currentBuild.currentResult}* Job ${env.JOB_NAME} build #${env.BUILD_NUMBER} by ${BUILD_USER} \n in stage ${env.STAGE_NAME} \n more info at ${env.BUILD_URL}")
+            slackSend   color: COLOR_MAP[currentBuild.currentResult], 
+                        message: "Build *${currentBuild.currentResult}* Job ${env.JOB_NAME} build #${env.BUILD_NUMBER} by ${BUILD_USER} \n in stage ${env.STAGE_NAME} \n more info at ${env.BUILD_URL}"
         }
     }
 }
