@@ -5,7 +5,7 @@ def COLOR_MAP = [
 ]
 
 def getBuildUser() {
-    def buildUser = currentBuild.rawBuild.getCause(Cause.UserIdCause).getUserId()
+    def buildUser = currentBuild.rawBuild.getCause(hudson.model.Cause$UserIdCause)
     if (buildUser == null) {
         result = 'anonymous'
     } else {
