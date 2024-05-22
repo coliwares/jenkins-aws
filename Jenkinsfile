@@ -46,6 +46,19 @@ pipeline {
                 sh 'npm run test'
             }
         }
+        stage('sonar') {
+            agent {
+                docker {
+                    image 'sonarsource/sonar-scanner-cli:latest'
+                    args '-u root:root'
+                }
+            }
+            steps {
+                withSonarQubeEnv('sonar') {
+                    sh 'sonar-scanner'
+                }
+            }
+        }
         stage('build') {
             agent {
                 docker {
